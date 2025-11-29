@@ -61,7 +61,7 @@ bool LoadConfiguration(const i3d::one::String& filename, Configuration& configur
                 if (strcmp(jsonHandler.name, "pragmaBackendAddress") == 0)
                 {
                     jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
-                    if (jsonHandler.type == 3)
+                    if (jsonHandler.type == 4)
                     {
                         configuration.pragmaBackendAddress = jsonHandler.stringValue;
                     }
@@ -69,7 +69,7 @@ bool LoadConfiguration(const i3d::one::String& filename, Configuration& configur
                 if (strcmp(jsonHandler.name, "pragmaGameInstanceId") == 0)
                 {
                     jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
-                    if (jsonHandler.type == 3)
+                    if (jsonHandler.type == 4)
                     {
                         configuration.pragmaGameInstanceId = jsonHandler.stringValue;
                     }
@@ -77,7 +77,7 @@ bool LoadConfiguration(const i3d::one::String& filename, Configuration& configur
                 if (strcmp(jsonHandler.name, "pragmaGameToken") == 0)
                 {
                     jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
-                    if (jsonHandler.type == 3)
+                    if (jsonHandler.type == 4)
                     {
                         configuration.pragmaGameToken = jsonHandler.stringValue;
                     }
@@ -85,7 +85,7 @@ bool LoadConfiguration(const i3d::one::String& filename, Configuration& configur
                 if (strcmp(jsonHandler.name, "pragmaSocialToken") == 0)
                 {
                     jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
-                    if (jsonHandler.type == 3)
+                    if (jsonHandler.type == 4)
                     {
                         configuration.pragmaSocialToken = jsonHandler.stringValue;
                     }
