@@ -49,15 +49,31 @@ bool LoadConfiguration(const i3d::one::String& filename, Configuration& configur
                     {
                         configuration.stressTest = jsonHandler.boolValue;
                     }
-                }                
-                if (strcmp(jsonHandler.name, "sendPragmaTokens") == 0)
+                }                            
+                if (strcmp(jsonHandler.name, "sendPragmaData") == 0)
                 {
                     jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
                     if (jsonHandler.type == 2)
                     {
-                        configuration.sendPragmaTokens = jsonHandler.boolValue;
+                        configuration.sendPragmaData = jsonHandler.boolValue;
                     }
                 }
+                if (strcmp(jsonHandler.name, "pragmaBackendAddress") == 0)
+                {
+                    jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
+                    if (jsonHandler.type == 3)
+                    {
+                        configuration.pragmaBackendAddress = jsonHandler.stringValue;
+                    }
+                }
+                if (strcmp(jsonHandler.name, "pragmaGameInstanceId") == 0)
+                {
+                    jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
+                    if (jsonHandler.type == 3)
+                    {
+                        configuration.pragmaGameInstanceId = jsonHandler.stringValue;
+                    }
+                }                   
                 if (strcmp(jsonHandler.name, "pragmaGameToken") == 0)
                 {
                     jsonReader.IterativeParseNext<rapidjson::kParseDefaultFlags>(jsonStream, jsonHandler);
@@ -97,12 +113,17 @@ void CreateDefaultConfiguration(const i3d::one::String& filename, const Configur
     writer.String(configuration.address.c_str());
     writer.Key("stressTest");
     writer.Bool(configuration.stressTest);
-    writer.Key("sendPragmaTokens");
-    writer.Bool(configuration.sendPragmaTokens);
+    writer.Key("sendPragmaData");
+    writer.Bool(configuration.sendPragmaData);
+    writer.Key("pragmaBackendAddress");
+    writer.String(configuration.pragmaBackendAddress.c_str());
+    writer.Key("pragmaGameInstanceId");
+    writer.String(configuration.pragmaGameInstanceId.c_str());    
     writer.Key("pragmaGameToken");
     writer.String(configuration.pragmaGameToken.c_str());
     writer.Key("pragmaSocialToken");
     writer.String(configuration.pragmaSocialToken.c_str());
+
     writer.EndObject();
 
     // Save settings file.

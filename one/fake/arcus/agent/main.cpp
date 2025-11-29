@@ -28,7 +28,9 @@ int main() {
     configuration.port = 19001;
     configuration.address = "127.0.0.1";
     configuration.stressTest = false;
-    configuration.sendPragmaTokens = false;
+    configuration.sendPragmaData = false;
+    configuration.pragmaBackendAddress = "";
+    configuration.pragmaGameInstanceId = "";
     configuration.pragmaGameToken = "";
     configuration.pragmaSocialToken = "";
 
@@ -46,7 +48,9 @@ int main() {
     log_info("  address: " + configuration.address);
     log_info("  port: " + String(std::to_string(configuration.port).c_str()));
     log_info("  stressTest: " + String(configuration.stressTest ? "true" : "false"));
-    log_info("  sendPragmaTokens: " + String(configuration.sendPragmaTokens ? "true" : "false"));
+    log_info("  sendPragmaData: " + String(configuration.sendPragmaData ? "true" : "false"));
+    log_info("  pragmaBackendAddress: " + configuration.pragmaBackendAddress);
+    log_info("  pragmaGameInstanceId: " + configuration.pragmaGameInstanceId);
     log_info("  pragmaGameToken: " + configuration.pragmaGameToken);
     log_info("  pragmaSocialToken: " + configuration.pragmaSocialToken);
 
@@ -123,14 +127,22 @@ int main() {
                             array.push_back_object(players);
                             array.push_back_object(duration);
 
-                            if (configuration.sendPragmaTokens) {
+                            if (configuration.sendPragmaData) {
+                                Object pragma_backend_address;
+                                pragma_backend_address.set_val_string("key", "pragmaBackendAddress");
+                                pragma_backend_address.set_val_string("value", configuration.pragmaBackendAddress);
+                                Object pragma_game_instance_id;
+                                pragma_game_instance_id.set_val_string("key", "pragmaGameInstanceId");
+                                pragma_game_instance_id.set_val_string("value", configuration.pragmaGameInstanceId);
                                 Object pragma_game_token;
                                 pragma_game_token.set_val_string("key", "pragmaGameToken");
                                 pragma_game_token.set_val_string("value", configuration.pragmaGameToken);
                                 Object pragma_social_token;
                                 pragma_social_token.set_val_string("key", "pragmaSocialToken");
-                                pragma_social_token.set_val_string("value", configuration.pragmaSocialToken);
+                                pragma_social_token.set_val_string("value", configuration.pragmaSocialToken);                               
 
+                                array.push_back_object(pragma_backend_address);
+                                array.push_back_object(pragma_game_instance_id);    
                                 array.push_back_object(pragma_game_token);
                                 array.push_back_object(pragma_social_token);
                             }

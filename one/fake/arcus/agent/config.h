@@ -9,12 +9,14 @@ namespace i3d {
 namespace one {
 
 struct Configuration {
-    int port = 19001;               // Port number for the server to listen on.
-    String address = "127.0.0.1";   // Address for the server to bind to.
-    bool stressTest = false;        // Whether to run in stress test mode.
-    bool sendPragmaTokens = false;  // Whether to send Pragma tokens as metadata payload with the allocated command.
-    String pragmaGameToken = "";    // pragma game token.
-    String pragmaSocialToken = "";  // pragma social token.
+    int port = 19001;                  // Port number for the server to listen on.
+    String address = "127.0.0.1";      // Address for the server to bind to.
+    bool stressTest = false;           // Whether to run in stress test mode.
+    bool sendPragmaData = false;       // Whether to send Pragma tokens as metadata payload with the allocated command.
+    String pragmaBackendAddress = "";  // pragma social token.
+    String pragmaGameInstanceId = "";  // pragma social token.
+    String pragmaGameToken = "";       // pragma game token.
+    String pragmaSocialToken = "";     // pragma social token.
 };
 
 struct JSONMessageHandler : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>, JSONMessageHandler>

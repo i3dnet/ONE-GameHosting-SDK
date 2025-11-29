@@ -17,18 +17,22 @@ The following settings can be configured for the Fake Agent:
     "port": 19001,
     "address": "127.0.0.1",
     "stressTest": false,
-    "sendPragmaTokens": false,
+    "sendPragmaData": false,
+    "pragmaInstanceId": "",
+    "PragmaBackendAddress": "",
     "pragmaGameToken": "",
     "pragmaSocialToken": ""
 }
 ```
 
-port:               Port number for the server to listen on.
-address:            Address for the server to bind to.
-stressTest:         Whether to run in stress test mode.
-sendPragmaTokens:   Whether to send Pragma tokens as metadata payload with the allocated command.
-pragmaGameToken:    The pragma game token.
-pragmaSocialToken:  The pragma social token.
+port:                   Port number for the server to listen on.
+address:                Address for the server to bind to.
+stressTest:             Whether to run in stress test mode.
+sendPragmaData:         Whether to send Pragma tokens as metadata payload with the allocated command.
+pragmaInstanceId:       Id of the Pragma Instance.
+PragmaBackendAddress:   Network address of the Pragma Engine
+pragmaGameToken:        The pragma game token.
+pragmaSocialToken:      he pragma social token.
 
 ## Connecting against your game server with the fake agent
 
