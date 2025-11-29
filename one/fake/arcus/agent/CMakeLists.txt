@@ -14,11 +14,13 @@ include_directories(${PROJECT_SOURCE_DIR})
 set(HEADER_FILES
     agent.h
     log.h
+    config.h
 )
 
 set(SOURCE_FILES
     agent.cpp
     log.cpp
+    config.cpp
 )
 
 add_library(one_agent ${SOURCE_FILES} ${HEADER_FILES})

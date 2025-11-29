@@ -6,6 +6,30 @@ The Fake Agent provided here uses the arcus library to simulate all of the agent
 
 It is *not* intended to be included in the game server's build nor is it required to build the server or accompanying arcus folder libraries.
 
+## Configuring Fake Agent
+
+If present in the same folder the Fake Agent will load the agent.json configuration file. If the configuration file is not present, the Fake Agent will create a new agent.json configuration file automatically.
+
+The following settings can be configured for the Fake Agent:
+
+```json
+{
+    "port": 19001,
+    "address": "127.0.0.1",
+    "stressTest": false,
+    "sendPragmaTokens": false,
+    "pragmaGameToken": "",
+    "pragmaSocialToken": ""
+}
+```
+
+port:               Port number for the server to listen on.
+address:            Address for the server to bind to.
+stressTest:         Whether to run in stress test mode.
+sendPragmaTokens:   Whether to send Pragma tokens as metadata payload with the allocated command.
+pragmaGameToken:    The pragma game token.
+pragmaSocialToken:  The pragma social token.
+
 ## Connecting against your game server with the fake agent
 
 1. Build the repository.

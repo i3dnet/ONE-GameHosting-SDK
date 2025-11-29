@@ -8,42 +8,50 @@
 
 #include <one/fake/arcus/agent/agent.h>
 #include <one/fake/arcus/agent/log.h>
+#include <one/fake/arcus/agent/config.h>
 
 using namespace std::chrono;
 using namespace i3d::one;
+
+Configuration configuration;
+String configFile = "agent.json";
 
 void sleep(int ms) {
     std::this_thread::sleep_for(milliseconds(ms));
 }
 
-int main(int argc, char **argv) {
+int main() {
     log_info("-----------------------");
     log_info("agent startup");
 
-    const int default_port = 19001;
-    int port = default_port;
-    bool stressTest = false;
+    // Default configuration values.
+    configuration.port = 19001;
+    configuration.address = "127.0.0.1";
+    configuration.stressTest = false;
+    configuration.sendPragmaTokens = false;
+    configuration.pragmaGameToken = "";
+    configuration.pragmaSocialToken = "";
 
-    if (argc >= 2) {
-        port = strtol(argv[1], nullptr, 10);
-
-        if (port <= 0) {
-            log_error("invalid port provided");
-            return 1;
-        }
-
-        for (int i = 1; i < argc; i++) {
-            if (strcmp(argv[i], "--stress") == 0) {
-                stressTest = true;
-                break;
-            }
-        }
+    if (!LoadConfiguration(configFile, configuration))
+    {
+        CreateDefaultConfiguration(configFile, configuration);
+        log_info("configuration file " + configFile + " not found, creating with default values.");
+    }
+    else
+    {
+        log_info("configuration file " + configFile + " found.");
     }
 
-    const String address = "127.0.0.1";
+    log_info("initializing agent with the following settings:");
+    log_info("  address: " + configuration.address);
+    log_info("  port: " + String(std::to_string(configuration.port).c_str()));
+    log_info("  stressTest: " + String(configuration.stressTest ? "true" : "false"));
+    log_info("  sendPragmaTokens: " + String(configuration.sendPragmaTokens ? "true" : "false"));
+    log_info("  pragmaGameToken: " + configuration.pragmaGameToken);
+    log_info("  pragmaSocialToken: " + configuration.pragmaSocialToken);
 
     Agent agent;
-    auto err = agent.init(address.c_str(), port);
+    auto err = agent.init(configuration.address.c_str(), configuration.port);
     if (is_error(err)) {
         log_error("failed to init agent.");
         return 1;
@@ -67,10 +75,10 @@ int main(int argc, char **argv) {
     int messages_counter = 0;
 
     while (true) {
-        sleep(stressTest ? 1 : 100);
+        sleep(configuration.stressTest ? 1 : 100);
 
         if (agent.client().status() == Client::Status::ready) {
-            if (stressTest) {
+            if (configuration.stressTest) {
                 Array metadata;
 
                 Object map_object;
@@ -114,6 +122,18 @@ int main(int argc, char **argv) {
 
                             array.push_back_object(players);
                             array.push_back_object(duration);
+
+                            if (configuration.sendPragmaTokens) {
+                                Object pragma_game_token;
+                                pragma_game_token.set_val_string("key", "pragmaGameToken");
+                                pragma_game_token.set_val_string("value", configuration.pragmaGameToken);
+                                Object pragma_social_token;
+                                pragma_social_token.set_val_string("key", "pragmaSocialToken");
+                                pragma_social_token.set_val_string("value", configuration.pragmaSocialToken);
+
+                                array.push_back_object(pragma_game_token);
+                                array.push_back_object(pragma_social_token);
+                            }
 
                             log_info("sending allocated");
                             agent.send_allocated(array);
